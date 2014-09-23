@@ -1,4 +1,4 @@
-(ns flambo-cassandra-bindings.core
+(ns flambo-cassandra.core
   (:import (com.datastax.spark.connector CassandraJavaUtil SparkContextJavaFunctions CassandraRow)
            (com.datastax.spark.connector.rdd CassandraJavaRDD)
            (scala.collection JavaConverters)

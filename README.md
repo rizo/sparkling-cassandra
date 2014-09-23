@@ -1,6 +1,8 @@
 Incomplete at the moment
 
-## flambo-cassandra-bindings
+## flambo-cassandra
+
+Cassandra Bindings for Flambo
 
 Flambo is a Clojure DSL for Apache Spark
 

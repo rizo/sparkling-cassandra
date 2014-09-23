@@ -1,4 +1,4 @@
-(defproject flambo-cassandra-bindings "0.1.0-SNAPSHOT"
+(defproject flambo-cassandra "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -9,5 +9,5 @@
                  [org.apache.spark/spark-streaming_2.10 "1.0.0"]
                  [com.datastax.spark/spark-cassandra-connector-java_2.10 "1.0.0"]]
   ;had to be done
-  :aot [flambo-cassandra-bindings.core]
+  :aot [flambo-cassandra.core]
   )
