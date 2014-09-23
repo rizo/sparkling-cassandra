@@ -1,4 +1,6 @@
-# flambo-cassandra-bindings
+Incomplete at the moment
+
+## flambo-cassandra-bindings
 
 Flambo is a Clojure DSL for Apache Spark
 
@@ -7,7 +9,7 @@ These bindings are for dealing with Cassandra RDD's if you are using the officia
 
 ## Usage
 
-FIXME
+see tests 
 
 ## License
 
