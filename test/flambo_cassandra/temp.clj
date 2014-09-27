@@ -21,17 +21,18 @@
 
 (def data (fc/ctable sc "test" "person"))
 data
+(class data)
 
 (def account (f/first (fc/select data "name")))
 (def account (f/first (fc/select data)))
 
-(fc/row->clj account)
+account
 
-(f/collect account)
+(fc/row->clj account)
 
 
 ;filter on spark
-(-> data
+(-> (fc/ctable sc "test" "person")
     (f/map (f/fn [s] (fc/row->clj s)))
     (f/filter (f/fn [s] (= (:age s) 999)))
     (f/collect)
@@ -42,6 +43,22 @@ data
 (-> (fc/ctable sc "test" "person")
     (fc/where "age=?" 999)
     (f/map (f/fn [s] (fc/row->clj s)))
+    ;(f/collect)
+    ;(f/save-as-text-file "/tmp/1.txt")
+    (fc/save "test" "person2")
+    )
+
+
+(-> (fc/ctable sc "test" "person")
+    (f/map (f/fn [s] (fc/row->clj s)))
     (f/collect)
     )
+
+;
+(class (f/first data))
+;save example
+;(fc/save data "test" "person2" {"id" "id" "age" "age" "name" "name"})
+
+
+
 
