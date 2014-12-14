@@ -7,9 +7,9 @@
          '[flambocassandra.bean :as fcb]
          :reload-all)
 
-(fcb/defbean Bean1 {Id String Name String Age Integer})
-(Bean1.)
-(Bean1. {:id "asd" :name "jack" :age 54})
+(fcb/defbean flambocassandra.bean.Bean1 {Id String Name String Age Integer})
+(flambocassandra.bean.Bean1.)
+(flambocassandra.bean.Bean1. {:id "asd" :name "jack" :age 54})
 
 
 
