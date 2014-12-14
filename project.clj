@@ -11,7 +11,7 @@
             ;had to be done
             :aot [flambo-cassandra.core
                   ;flambocassandra.bean
-                   flambo-cassandra.temp
+                  flambo-cassandra.temp
                   ]
             :profiles {:dev {:dependencies [[clojurewerkz/cassaforte "2.0.0-beta4"]]}}
             )

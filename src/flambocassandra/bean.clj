@@ -34,11 +34,11 @@
   (mapcat (fn [field] [`(defgetter ~field) `(defsetter ~field)]) fields))
 
 (defmacro defsetter [field]
-  `(defn ~(symbol (str "set" field)) [this# value#]
+  `(defn ~(symbol (str "-set" field)) [this# value#]
      (set-field this# ~(keyword field) value#)))
 
 (defmacro defgetter [field]
-  `(defn ~(symbol (str "get" field))
+  `(defn ~(symbol (str "-get" field))
      [this#]
      (get-field this# ~(keyword field))))
 
