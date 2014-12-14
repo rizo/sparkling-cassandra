@@ -1,10 +1,10 @@
 (ns flambo-cassandra.core
-  (:import (com.datastax.spark.connector CassandraJavaUtil SparkContextJavaFunctions CassandraRow RDDJavaFunctions)
-           (com.datastax.spark.connector.rdd CassandraJavaRDD)
+  (:import (com.datastax.spark.connector.japi CassandraJavaUtil SparkContextJavaFunctions CassandraRow RDDJavaFunctions)
+           (com.datastax.spark.connector.japi.rdd CassandraJavaRDD)
            (scala.collection JavaConverters)
            (scala.collection.convert Decorators$AsJava)
            (org.apache.spark.rdd RDD)
-           (org.apache.spark.api.java JavaRDD)
+           (org.apache.spark.api.java JavaRDD JavaSparkContext)
            (java.util Map List HashMap))
   (:require [flambo.conf :as conf]
             [flambo.api :as f]))
@@ -40,7 +40,7 @@
 
 (defn ctable
   "Returns the table as RDD"
-  [spark-context keyspace table]
+  [^JavaSparkContext spark-context keyspace table]
   (let [funcs ^SparkContextJavaFunctions (CassandraJavaUtil/javaFunctions spark-context)]
     (.cassandraTable funcs keyspace table)))
 
@@ -60,19 +60,17 @@
 ;convert a cassandra row to clojure data structure
 (f/defsparkfn row->clj
               [^CassandraRow row]
-              (let [scala-map (.toMap row)
-                    java-map (.asJava ^Decorators$AsJava (JavaConverters/mapAsJavaMapConverter scala-map))]
-                (as-clj-map java-map)))
-
+              (as-clj-map (.toMap row)))
 
 ;not working yet
 (defn save
   "rdd can contain any type of object,
   for now, ask for the first item in the container and get its class"
-  [^JavaRDD rdd keyspace table column-override]
+  [^JavaRDD rdd keyspace table write-type field-to-col-mapping]
   (let [clazz (class (f/first rdd))
-        funcs ^RDDJavaFunctions (CassandraJavaUtil/javaFunctions rdd clazz)]
-    (.saveToCassandra funcs keyspace table (HashMap. column-override))))
+        funcs ^RDDJavaFunctions (CassandraJavaUtil/javaFunctions rdd)
+        writer (.writerBuilder funcs keyspace table (CassandraJavaUtil/mapToRow write-type field-to-col-mapping))]
+    (.saveToCassandra writer)))
 
 
 
