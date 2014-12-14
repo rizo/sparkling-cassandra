@@ -7,17 +7,17 @@
          :reload-all)
 
 
-(fcb/defbean flambocassandra.bean.Bean1 {Id String Name String Age Integer})
-(println (.getName (flambocassandra.bean.Bean1. {:id "asd" :name "jack" :age 54})))
-(flambocassandra.bean.Bean1.)
-(flambocassandra.bean.Bean1. {:id "asd" :name "jack" :age 54})
+
+(in-ns 'flambocassandra.bean)
+(defbean Bean1 {Id String Name String Age Integer})
+(println (.getName (Bean1. {:id "asd" :name "jack" :age 54})))
+(Bean1.)
+(Bean1. {:id "asd" :name "jack" :age 54})
 
 
 
 (ns-publics 'flambocassandra.bean)
 ;(dir flambocassandra.bean)
-
-;no such namespace
 
 (comment
 

@@ -47,10 +47,9 @@
 
 (defmacro defbean [bean-name fields]
   `(do
-     (in-ns 'flambocassandra.bean)
      (gen-class
        :main false
-       ;:impl-ns "flambocassandra.bean"
+       :impl-ns flambocassandra.bean
        :state ~'state
        :init ~'init
        :name ~bean-name
