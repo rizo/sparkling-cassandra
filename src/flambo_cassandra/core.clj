@@ -67,7 +67,7 @@
 
 ;not working yet
 (defn save
-  "rdd can cnotain any type of object,
+  "rdd can contain any type of object,
   for now, ask for the first item in the container and get its class"
   [^JavaRDD rdd keyspace table column-override]
   (let [clazz (class (f/first rdd))

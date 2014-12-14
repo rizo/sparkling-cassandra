@@ -13,4 +13,4 @@ pom.xml.asc
 /.idea
 *.iml
 *.jpr
-test/flambo_cassandra/temp.clj
+test/flambo_cassandra/temp*
