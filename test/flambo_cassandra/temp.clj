@@ -1,5 +1,4 @@
-(ns flambo-cassandra.temp
-  (:import (java.util HashMap)))
+(ns flambo-cassandra.temp)
 
 (require '[flambo.conf :as conf]
          '[flambo.api :as f]
@@ -7,56 +6,20 @@
          '[flambocassandra.bean :as fcb]
          :reload-all)
 
+
 (fcb/defbean flambocassandra.bean.Bean1 {Id String Name String Age Integer})
+(println (.getName (flambocassandra.bean.Bean1. {:id "asd" :name "jack" :age 54})))
 (flambocassandra.bean.Bean1.)
 (flambocassandra.bean.Bean1. {:id "asd" :name "jack" :age 54})
-(println (.getName (flambocassandra.bean.Bean1. {:id "asd" :name "jack" :age 54})))
+
 
 
 (ns-publics 'flambocassandra.bean)
 ;(dir flambocassandra.bean)
-(ns-publics 'flambocassandra.bean.Bean1)
+
 ;no such namespace
 
-(.getDeclaredMethods flambocassandra.bean.Bean1)
-(pprint *1)
-(.getName (flambocassandra.bean.Bean1. {:id "asd" :name "jack" :age 54}))
-
-
-;(definterface ICassandraWriteable
-;              (getName [])
-;              (^void setName [v])
-;              (getId [])
-;              (^void setId [v])
-;              (getAge [])
-;              (^void setAge [v]))
-;
-;(def gsm
-;  '{:id [getId setId]
-;    :name [getName setName]
-;    :age [getAge setAge]})
-;
-;
-;(def clj->cas (fcb/compile-atom-bean-converter '[ICassandraWriteable] gsm))
-;
-;
-;(defn compile-atom-bean-converter [ifaces get-set-map]
-;  (eval
-;    (let [asym (gensym)]
-;      `(fn [~asym]
-;         (reify ~@ifaces
-;           ~@(apply concat
-;                    (for [[k [g s]] get-set-map]
-;                      [`(~g [~'this] (~k @~asym))
-;                       `(~s [~'this ~'v]
-;                         (swap! ~asym assoc ~k ~'v))])))))))
-
-
-
 (comment
-  ;(ns-publics 'user)
-  ;(macroexpand-1 '(fcb/defbean bean1 {bar String baz Integer}))
-  ;(macroexpand '(fcb/defbean bean1 {bar String baz Integer}))
 
   ;CREATE KEYSPACE test WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1 };
   ;CREATE TABLE test.person (id int PRIMARY KEY, name text , age int);
@@ -101,56 +64,16 @@
   ;filter on cassandra
   ;this test data needs a secondary index for this
 
-
-  ;(defprotocol ICassandraOutput
-  ;  "documentation"
-  ;  (getCol1 [this] "documentation")
-  ;  (setCol1 [this v] "documentation")
-  ;
-  ;  (getCol2 [this] "documentation")
-  ;  (setCol2 [this v] "documentation")
-  ;
-  ;  (getCol3 [this] "documentation")
-  ;  (setCol3 [this v] "documentation")
-  ;  )
-  ;
-  ;(deftype CassandraOutput
-  ;  [^:unsynchronized-mutable col1
-  ;   ^:unsynchronized-mutable col2
-  ;   ^:unsynchronized-mutable col3]
-  ;  ICassandraOutput
-  ;  (getCol1 [this] col1)
-  ;  (setCol1 [this v] (set! col1 v))
-  ;
-  ;  (getCol2 [this] col2)
-  ;  (setCol2 [this v] (set! col2 v))
-  ;
-  ;  (getCol3 [this] col3)
-  ;  (setCol3 [this v] (set! col3 v))
-  ;
-  ;  Object
-  ;  (toString [this] (str col1 col2 col3))
-  ;
-  ;  )
-
-
-  ;(let [x (CassandraOutput. nil nil nil)]
-  ;  (.setCol1 x "5")
-  ;  (.getCol1 x))
-
-
-
-
   (-> (fc/ctable sc "test" "person")
       ;(fc/where "age=?" 999)
       (f/map fc/row->clj)
-      (f/map (f/fn [x] (clj->cas x)))
-      (f/collect)
+      (f/map (f/fn [x] (flambocassandra.bean.Bean1. x)))
+      ;(f/collect)
       ;(f/save-as-text-file "/tmp/1.txt")
       ;
-      ;(fc/save "test" "output1" ICassandraWriteable {"id"   "col1"
-      ;                                                      "name" "col2"
-      ;                                                      "age"  "col3"})
+      (fc/save "test" "output1" flambocassandra.bean.Bean1 {"id"   "col1"
+                                                            "name" "col2"
+                                                            "age"  "col3"})
       )
 
 

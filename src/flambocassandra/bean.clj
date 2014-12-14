@@ -1,6 +1,9 @@
 (ns flambocassandra.bean
   (:import (java.util Map)))
 
+(defn ignore-case [k]
+  (->> k name clojure.string/lower-case keyword))
+
 (defn -init
   ([] [[] (atom {})])
   ([^Map x] [[] (atom x)])
@@ -20,11 +23,11 @@
 
 (defn set-field
   [this key value]
-  (swap! (.state this) into {key value}))
+  (swap! (.state this) into {(ignore-case key) value}))
 
 (defn get-field
   [this key]
-  (@(.state this) key))
+  (@(.state this) (ignore-case key)))
 
 (defn gen-method-defs [fields]
   (mapcat (fn [[name type]] [[(str "set" name) [type] 'void]
@@ -44,9 +47,10 @@
 
 (defmacro defbean [bean-name fields]
   `(do
+     (in-ns 'flambocassandra.bean)
      (gen-class
        :main false
-       :impl-ns "flambocassandra.bean"
+       ;:impl-ns "flambocassandra.bean"
        :state ~'state
        :init ~'init
        :name ~bean-name
@@ -59,3 +63,4 @@
        )
      ~@(def-access-methods (keys fields))
      ))
+
