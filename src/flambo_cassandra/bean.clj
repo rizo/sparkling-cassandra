@@ -1,4 +1,4 @@
-(ns flambocassandra.bean
+(ns flambo-cassandra.bean
   (:import (java.util Map)))
 
 (defn ignore-case [k]
@@ -37,14 +37,14 @@
   (mapcat (fn [field] [`(defgetter ~field) `(defsetter ~field)]) fields))
 
 (defmacro defsetter [field]
-  `(intern 'flambocassandra.bean '~(symbol (str "-set" field))
+  `(intern 'flambo-cassandra.bean '~(symbol (str "-set" field))
            (fn [this# value#]
              (set-field this# ~(keyword field) value#))))
 
 (macroexpand '(defsetter asd))
 
 (defmacro defgetter [field]
-  `(intern 'flambocassandra.bean '~(symbol (str "-get" field))
+  `(intern 'flambo-cassandra.bean '~(symbol (str "-get" field))
            (fn [this#]
              (get-field this# ~(keyword field)))))
 
@@ -54,7 +54,7 @@
   `(do
      (gen-class
        :main false
-       :impl-ns flambocassandra.bean
+       :impl-ns flambo-cassandra.bean
        :state ~'state
        :init ~'init
        :name ~bean-name

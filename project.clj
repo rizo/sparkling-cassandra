@@ -11,7 +11,7 @@
                  [com.datastax.spark/spark-cassandra-connector-java_2.10 "1.1.0"]]
   ;had to be done
   :aot [flambo-cassandra.core
-        ;flambocassandra.bean
+        ;flambo-cassandra.bean
         flambo-cassandra.temp
         ]
   :profiles {:dev {:dependencies [[clojurewerkz/cassaforte "2.0.0-beta4"]]}}

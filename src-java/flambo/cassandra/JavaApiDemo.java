@@ -38,7 +38,7 @@ public class JavaApiDemo implements Serializable {
 
 
     public static void main(String[] args) {
-        RowWriterFactory<flambocassandra.bean.Bean1> bean1RowWriterFactory = mapToRow(flambocassandra.bean.Bean1.class);
+        RowWriterFactory<flambo-cassandra.bean.Bean1> bean1RowWriterFactory = mapToRow(flambo-cassandra.bean.Bean1.class);
         System.out.println(bean1RowWriterFactory);
 
     }

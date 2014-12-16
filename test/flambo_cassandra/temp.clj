@@ -3,23 +3,23 @@
 (require '[flambo.conf :as conf]
          '[flambo.api :as f]
          '[flambo-cassandra.core :as fc]
-         '[flambocassandra.bean :as fcb]
+         '[flambo-cassandra.bean :as fcb]
          :reload-all)
 
 
 
-;(in-ns 'flambocassandra.bean)
-(fcb/defbean flambocassandra.bean.Bean1 {Id String Name String Age Long})
-(println (ns-publics 'flambocassandra.bean))
-(println (ns-interns 'flambocassandra.bean))
-(println (.getName (flambocassandra.bean.Bean1. {:id "asd" :name "jack" :age 54})))
-(println (flambocassandra.bean.Bean1.))
-(println (flambocassandra.bean.Bean1. {:id "asd" :name "jack" :age 54}))
+;(in-ns 'flambo-cassandra.bean)
+(fcb/defbean flambo-cassandra.bean.Bean1 {Id String Name String Age Long})
+(println (ns-publics 'flambo-cassandra.bean))
+(println (ns-interns 'flambo-cassandra.bean))
+(println (.getName (flambo-cassandra.bean.Bean1. {:id "asd" :name "jack" :age 54})))
+(println (flambo-cassandra.bean.Bean1.))
+(println (flambo-cassandra.bean.Bean1. {:id "asd" :name "jack" :age 54}))
 
 
 
-(ns-publics 'flambocassandra.bean)
-;(dir flambocassandra.bean)
+(ns-publics 'flambo-cassandra.bean)
+;(dir flambo-cassandra.bean)
 
 (comment
 
@@ -68,12 +68,12 @@
 
   (-> (fc/ctable sc "test" "person")
       (f/map fc/row->clj)
-      (f/map (f/fn [x] (flambocassandra.bean.Bean1. x)))
+      (f/map (f/fn [x] (flambo-cassandra.bean.Bean1. x)))
       ;(f/collect)
       ;(f/save-as-text-file "/tmp/1.txt")
       ;
       (fc/save "test" "output1"
-               flambocassandra.bean.Bean1
+               flambo-cassandra.bean.Bean1
                {"id"   "col1"
                 "name" "col2"
                 "age"  "col3"})
