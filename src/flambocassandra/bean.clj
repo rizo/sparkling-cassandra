@@ -37,13 +37,18 @@
   (mapcat (fn [field] [`(defgetter ~field) `(defsetter ~field)]) fields))
 
 (defmacro defsetter [field]
-  `(defn ~(symbol (str "-set" field)) [this# value#]
-     (set-field this# ~(keyword field) value#)))
+  `(intern 'flambocassandra.bean '~(symbol (str "-set" field))
+           (fn [this# value#]
+             (set-field this# ~(keyword field) value#))))
+
+(macroexpand '(defsetter asd))
 
 (defmacro defgetter [field]
-  `(defn ~(symbol (str "-get" field))
-     [this#]
-     (get-field this# ~(keyword field))))
+  `(intern 'flambocassandra.bean '~(symbol (str "-get" field))
+           (fn [this#]
+             (get-field this# ~(keyword field)))))
+
+(macroexpand '(defgetter asd))
 
 (defmacro defbean [bean-name fields]
   `(do
