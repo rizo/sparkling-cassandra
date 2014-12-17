@@ -41,14 +41,14 @@
            (fn [this# value#]
              (set-field this# ~(keyword field) value#))))
 
-(macroexpand '(defsetter asd))
+;(macroexpand '(defsetter asd))
 
 (defmacro defgetter [field]
   `(intern 'flambo-cassandra.bean '~(symbol (str "-get" field))
            (fn [this#]
              (get-field this# ~(keyword field)))))
 
-(macroexpand '(defgetter asd))
+;(macroexpand '(defgetter asd))
 
 (defmacro defbean [bean-name fields]
   `(do
@@ -61,10 +61,7 @@
        :methods ~(gen-method-defs fields)
        :implements [java.io.Serializable]
        :constructors {[]    []
-                      [Map] []
-                      }
-       ;:prefix "bean"
+                      [Map] []}
        )
      ~@(def-access-methods (keys fields))
      ))
-
